@@ -197,6 +197,34 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Card 6: Audit Logs / Sistem Kayıtları -->
+            <a href="{{ route('admin.audits.index') }}"
+                class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-gray-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="p-6 relative z-10 flex flex-col h-full">
+                    <div
+                        class="w-14 h-14 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-gray-600 group-hover:text-white transition-all duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-gray-600 transition-colors">Sistem
+                        Kayıtları</h3>
+                    <p class="text-slate-500 text-sm mb-4 flex-1">Ekleme, silme ve düzenleme işlemlerinin detaylı denetim
+                        kayıtları.</p>
+                    <div class="text-gray-600 font-medium text-sm flex items-center">
+                        Kayıtları Gör <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
         </div>
     @endif
 

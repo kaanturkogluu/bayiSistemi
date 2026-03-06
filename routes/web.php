@@ -16,12 +16,16 @@ use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CustomerTransactionController;
 use App\Http\Controllers\Admin\CariController;
+use App\Http\Controllers\Admin\AuditController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
         $totalBalance = \App\Models\Customer::sum('balance');
         return view('admin.dashboard', compact('totalBalance'));
     });
+
+    // Audit Routes
+    Route::get('admin/audits', [AuditController::class, 'index'])->name('admin.audits.index');
 
     Route::resource('admin/users', AccountController::class)->names('admin.users');
     Route::resource('admin/customers', CustomerController::class)->names('admin.customers');

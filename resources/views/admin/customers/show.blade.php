@@ -6,7 +6,7 @@
     {{-- Header --}}
     <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.customers.index') }}"
+            <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('admin.customers.index') }}"
                 class="inline-flex items-center justify-center w-10 h-10 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-50 transition-colors shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -231,10 +231,18 @@
 
                         {{-- Amount --}}
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Tahsilat Tutarı</label>
-                            <div class="relative">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="block text-sm font-semibold text-slate-700">Tahsilat Tutarı</label>
                                 @php $maxAmount = $customer->balance > 0 ? $customer->balance : 0; @endphp
-                                <input type="number" step="0.01" min="0.01" max="{{ $maxAmount }}" name="amount" required
+                                @if($maxAmount > 0)
+                                    <button type="button" onclick="document.getElementById('paymentAmountInput').value = '{{ number_format($maxAmount, 2, '.', '') }}'" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded transition-colors">
+                                        Tüm Borcu Tahsil Et
+                                    </button>
+                                @endif
+                            </div>
+                            <div class="relative">
+                                <input type="number" step="0.01" min="0.01" max="{{ $maxAmount }}" name="amount" id="paymentAmountInput" required
+                                    oninput="if(parseFloat(this.value) > {{ $maxAmount }}) this.value = '{{ number_format($maxAmount, 2, '.', '') }}';"
                                     class="w-full pl-4 pr-14 py-3 border border-slate-300 rounded-xl text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
                                     placeholder="0,00">
                                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₺</span>

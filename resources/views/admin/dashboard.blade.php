@@ -173,7 +173,7 @@
             </a>
 
             <!-- Card 5 (Nasıl Kullanılır?) -->
-            <div
+            <a href="{{ route('admin.how_to_use') }}"
                 class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
                 <div
                     class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
@@ -207,7 +207,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </a>
 
             <!-- Card 6: Audit Logs / Sistem Kayıtları -->
             <a href="{{ route('admin.audits.index') }}"

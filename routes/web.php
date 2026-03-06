@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
         return view('admin.dashboard', compact('totalBalance'));
     });
 
+    Route::get('/admin/how-to-use', function () {
+        return view('admin.how-to-use');
+    })->name('admin.how_to_use');
+
     // Audit Routes
     Route::get('admin/audits', [AuditController::class, 'index'])->name('admin.audits.index');
 

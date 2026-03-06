@@ -4,6 +4,18 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto">
+        {{-- Header --}}
+        <div class="mb-6 flex items-center gap-4">
+            <a href="{{ url()->previous() !== url()->current() ? url()->previous() : url('/admin') }}"
+                class="inline-flex items-center justify-center w-10 h-10 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-50 transition-colors shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                    </path>
+                </svg>
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800">Fatura ve Şirket Ayarları</h1>
+        </div>
+
         <div class="bg-white border text-slate-800 border-slate-200 shadow-sm rounded-xl p-6 sm:p-10">
 
             @if(session('success'))
@@ -104,11 +116,11 @@
                     <div class="flex-1">
                         <label for="logo" class="block text-sm font-medium text-slate-700 mb-2">Yeni Logo Yükle</label>
                         <input type="file" name="logo" id="logo" accept="image/*" class="block w-full text-sm text-slate-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-full file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100 transition" />
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-full file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100 transition" />
                         <p class="text-xs text-slate-500 mt-2">Maksimum dosya boyutu: 2MB. İzin verilen formatlar: JPEG,
                             PNG, JPG, GIF.</p>
                         @error('logo')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror

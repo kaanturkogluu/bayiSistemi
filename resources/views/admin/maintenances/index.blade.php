@@ -4,6 +4,19 @@
 
 @section('content')
     <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <a href="{{ url()->previous() !== url()->current() ? url()->previous() : url('/admin') }}"
+                class="inline-flex items-center justify-center w-10 h-10 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-50 transition-colors shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                    </path>
+                </svg>
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800">Bakım Kayıtları</h1>
+        </div>
+    </div>
+
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <!-- Search Form -->
         <form action="{{ route('admin.maintenances.index') }}" method="GET" class="w-full md:w-1/2 flex gap-2">
             <div class="relative flex-1">

@@ -134,19 +134,49 @@
                                 {{ $customer->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('admin.maintenances.create', ['customer_id' => $customer->id]) }}"
-                                    class="text-emerald-600 hover:text-emerald-900 mr-3 font-bold">Servis Oluştur</a>
-                                <a href="{{ route('admin.customers.show', $customer) }}"
-                                    class="text-indigo-600 hover:text-indigo-900 mr-3">Cari</a>
-                                <a href="{{ route('admin.customers.edit', $customer) }}"
-                                    class="text-blue-600 hover:text-blue-900 mr-3">Düzenle</a>
-                                <form action="{{ route('admin.customers.destroy', $customer) }}" method="POST"
-                                    class="inline-block"
-                                    onsubmit="return confirm('Bu müşteriyi silmek istediğinize emin misiniz? Tüm bakımları da silinecektir!');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Sil</button>
-                                </form>
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('admin.maintenances.create', ['customer_id' => $customer->id]) }}"
+                                        class="text-emerald-600 hover:text-emerald-900 font-bold">Servis Oluştur</a>
+                                    <span class="text-slate-300">|</span>
+                                    <a href="{{ route('admin.customers.show', $customer) }}"
+                                        class="text-indigo-600 hover:text-indigo-900">Cari</a>
+                                    <span class="text-slate-300">|</span>
+                                    <a href="{{ route('admin.customers.maintenances', $customer) }}"
+                                        class="text-purple-600 hover:text-purple-900">Bakım Geçmişi</a>
+                                    <span class="text-slate-300">|</span>
+
+                                    {{-- Kebab dropdown --}}
+                                    <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                                        <button @click="open = !open"
+                                            class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4z"/>
+                                            </svg>
+                                        </button>
+                                        <div x-show="open" x-transition
+                                            class="absolute right-0 mt-1 w-36 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-30">
+                                            <a href="{{ route('admin.customers.edit', $customer) }}"
+                                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                                Düzenle
+                                            </a>
+                                            <form action="{{ route('admin.customers.destroy', $customer) }}" method="POST"
+                                                onsubmit="return confirm('Bu müşteriyi silmek istediğinize emin misiniz? Tüm bakımları da silinecektir!');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    </svg>
+                                                    Sil
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @empty

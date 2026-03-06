@@ -6,7 +6,7 @@
     <!-- ACTION BUTTONS -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
         <div class="flex items-center">
-            <a href="{{ route('admin.maintenances.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-blue-600 mr-4 transition-colors shadow-sm">
+            <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('admin.maintenances.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-blue-600 mr-4 transition-colors shadow-sm">
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Geri Dön
             </a>

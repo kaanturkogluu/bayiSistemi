@@ -72,13 +72,6 @@
         <!-- Header replaced by the top navbar, but we keep yield content container -->
         <main
             class="flex-1 w-full max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 print:p-0 print:m-0 print:max-w-none print:w-full">
-            <!-- Page Title Area -->
-            <div class="mb-4 sm:mb-8 border-b border-slate-200 pb-4 print:hidden">
-                <h2 class="text-2xl font-bold leading-7 text-slate-900 sm:text-3xl sm:truncate">
-                    @yield('header', 'Dashboard')
-                </h2>
-            </div>
-
             @yield('content')
         </main>
 

@@ -100,7 +100,7 @@
                         <th class="px-6 py-3">Telefon</th>
                         <th class="px-6 py-3 text-right">Toplam Borç</th>
                         <th class="px-6 py-3 text-right">Toplam Ödenen</th>
-                        <th class="px-6 py-3 text-right">Kalan Bakiye</th>
+                        <th class="px-6 py-3 text-right">Kalan Borç</th>
                         <th class="px-6 py-3 text-center">Durum</th>
                         <th class="px-6 py-3"></th>
                     </tr>

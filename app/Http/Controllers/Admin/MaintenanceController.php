@@ -165,6 +165,25 @@ class MaintenanceController extends Controller
         }
     }
 
+    public function complete(Request $request, Maintenance $maintenance)
+    {
+        // Auto-complete any uncompleted parts
+        foreach ($maintenance->parts as $part) {
+            if (!$part->is_completed) {
+                $part->is_completed = true;
+                $part->completed_by = \Illuminate\Support\Facades\Auth::id();
+                $part->save();
+            }
+        }
+
+        $maintenance->status = 'tamamlandi';
+        $maintenance->completed_by = \Illuminate\Support\Facades\Auth::id();
+        $maintenance->save();
+
+        return redirect()->route('admin.maintenances.show', $maintenance)
+            ->with('success', 'Bakım admin tarafından başarıyla tamamlandı.');
+    }
+
     public function destroy(Maintenance $maintenance)
     {
         $maintenance->delete();

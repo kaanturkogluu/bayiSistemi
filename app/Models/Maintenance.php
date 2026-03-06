@@ -16,7 +16,13 @@ class Maintenance extends Model
         'labor_cost',
         'total_cost',
         'status',
+        'completed_by',
     ];
+
+    public function completedBy()
+    {
+        return $this->belongsTo(Account::class, 'completed_by');
+    }
 
     public function customer()
     {

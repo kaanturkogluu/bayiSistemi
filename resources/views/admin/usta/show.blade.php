@@ -29,14 +29,21 @@
                     </button>
                 </form>
             @else
-                <span
-                    class="px-5 py-2.5 bg-emerald-100 text-emerald-800 text-sm font-bold rounded-xl flex items-center border border-emerald-200">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    Bu Bakım Tamamlandı
-                </span>
+                <div class="flex flex-col items-end gap-1">
+                    <span
+                        class="px-5 py-2.5 bg-emerald-100 text-emerald-800 text-sm font-bold rounded-xl flex items-center border border-emerald-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Bu Bakım Tamamlandı
+                    </span>
+                    @if($maintenance->completedBy)
+                        <span class="text-xs text-slate-500 font-medium px-1">
+                            Tamamlayan: {{ $maintenance->completedBy->username ?? 'Araç Kabul' }}
+                        </span>
+                    @endif
+                </div>
             @endif
         </div>
     </div>

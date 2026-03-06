@@ -17,6 +17,15 @@
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 Düzenle
             </a>
+            @if($maintenance->status === 'bekliyor')
+            <form action="{{ route('admin.maintenances.complete', $maintenance) }}" method="POST" class="inline-block" onsubmit="return confirm('Bu bakımı ve tüm parçalarını tamamlandı olarak işaretlemek istediğinize emin misiniz?');">
+                @csrf
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-medium text-white hover:bg-emerald-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                    <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Bakımı Tamamla
+                </button>
+            </form>
+            @endif
             <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-medium text-white hover:bg-blue-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                 Yazdır / Fatura Al
@@ -54,6 +63,11 @@
                     <div class="flex md:justify-end py-1">
                         <span class="font-medium mr-2">Oluşturulma:</span> {{ $maintenance->created_at->format('d.m.Y H:i') }}
                     </div>
+                    @if($maintenance->status === 'tamamlandi' && $maintenance->completedBy)
+                    <div class="flex md:justify-end py-1 text-emerald-600">
+                        <span class="font-medium mr-2">Tamamlayan Usta:</span> {{ $maintenance->completedBy->username ?? 'Araç Kabul' }}
+                    </div>
+                    @endif
                     <div class="flex md:justify-end py-1">
                         <span class="font-medium mr-2">Kayıt No:</span> #{{ str_pad($maintenance->id, 5, '0', STR_PAD_LEFT) }}
                     </div>

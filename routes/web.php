@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/users', AccountController::class)->names('admin.users');
     Route::resource('admin/customers', CustomerController::class)->names('admin.customers');
     Route::resource('admin/maintenances', MaintenanceController::class)->names('admin.maintenances');
+    Route::post('admin/maintenances/{maintenance}/complete', [MaintenanceController::class, 'complete'])->name('admin.maintenances.complete');
 
     // Invoice Settings Routes
     Route::get('admin/settings/invoice', [SettingController::class, 'invoice'])->name('admin.settings.invoice');

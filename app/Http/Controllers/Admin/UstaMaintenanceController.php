@@ -89,6 +89,7 @@ class UstaMaintenanceController extends Controller
         }
 
         $maintenance->status = 'tamamlandi';
+        $maintenance->completed_by = Auth::id();
         $maintenance->save();
 
         return redirect()->route('admin.usta.maintenances', ['status' => 'tamamlandi'])

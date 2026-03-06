@@ -1,67 +1,12 @@
 @extends('layouts.admin')
 
-@section('header', 'Dashboard & Hızlı Erişim')
+@section('header', 'Hızlı Erişim')
 
 @section('content')
-    <!-- Link Cards grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-        <!-- Card 1 -->
-        <a href="{{ route('admin.users.index') }}"
-            class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
-            <div
-                class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-            </div>
-            <div class="p-6 relative z-10 flex flex-col h-full">
-                <div
-                    class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-                        </path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Kullanıcı
-                    Yönetimi</h3>
-                <p class="text-slate-500 text-sm mb-4 flex-1">Sistemdeki kullanıcıları, rolleri ve izinleri yönetin.</p>
-                <div class="text-blue-600 font-medium text-sm flex items-center">
-                    Yönetime Git <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </div>
-            </div>
-        </a>
-
-        <!-- Card 2: Customers -->
-        <a href="{{ route('admin.customers.index') }}"
-            class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
-            <div
-                class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-            </div>
-            <div class="p-6 relative z-10 flex flex-col h-full">
-                <div
-                    class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                        </path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">Müşteri
-                    Yönetimi</h3>
-                <p class="text-slate-500 text-sm mb-4 flex-1">Sisteme kayıtlı müşterileri ve iletişim bilgilerini yönetin.
-                </p>
-                <div class="text-emerald-600 font-medium text-sm flex items-center">
-                    Yönetime Git <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </div>
-            </div>
-        </a>
-
-        <!-- Card 3: Maintenances / Bakımlar -->
+    <!-- Priority Level 1 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <!-- Card 1: Maintenances / Bakımlar (Priority 1) -->
         <a href="{{ route('admin.maintenances.index') }}"
             class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-purple-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
             <div
@@ -91,8 +36,75 @@
             </div>
         </a>
 
-        <!-- Card 4 -->
-        <a href="#"
+        <!-- Card 2: Customers (Priority 2) -->
+        <a href="{{ route('admin.customers.index') }}"
+            class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+            </div>
+            <div class="p-6 relative z-10 flex flex-col h-full">
+                <div
+                    class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">Müşteri
+                    Yönetimi</h3>
+                <p class="text-slate-500 text-sm mb-4 flex-1">Sisteme kayıtlı müşterileri ve iletişim bilgilerini yönetin.
+                </p>
+                <div class="text-emerald-600 font-medium text-sm flex items-center">
+                    Yönetime Git <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="mb-8 mt-2 flex items-center">
+        <div class="h-px bg-slate-200 flex-1"></div>
+        <span class="px-4 text-sm text-slate-400 font-medium uppercase tracking-wider">Diğer İşlemler</span>
+        <div class="h-px bg-slate-200 flex-1"></div>
+    </div>
+
+    <!-- Priority Level 2 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <!-- Card 3: User Management -->
+        <a href="{{ route('admin.users.index') }}"
+            class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+            </div>
+            <div class="p-6 relative z-10 flex flex-col h-full">
+                <div
+                    class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Kullanıcı
+                    Yönetimi</h3>
+                <p class="text-slate-500 text-sm mb-4 flex-1">Sistemdeki kullanıcıları, rolleri ve izinleri yönetin.</p>
+                <div class="text-blue-600 font-medium text-sm flex items-center">
+                    Yönetime Git <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </div>
+        </a>
+
+        <!-- Card 4: Settings -->
+        <a href="{{ route('admin.settings.invoice') }}"
             class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
             <div
                 class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
@@ -108,9 +120,10 @@
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">Sistem
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">Fatura
                     Ayarları</h3>
-                <p class="text-slate-500 text-sm mb-4 flex-1">Genel yapılandırma ve uygulama ayarları.</p>
+                <p class="text-slate-500 text-sm mb-4 flex-1">Fatura şablonunda kullanılacak firma, adres ve logo
+                    bilgilerini güncelleyin.</p>
                 <div class="text-amber-600 font-medium text-sm flex items-center">
                     Ayarlara Git <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +133,7 @@
             </div>
         </a>
 
-        <!-- Card 5 (Add more as needed) -->
+        <!-- Card 5 (Raporlar) -->
         <a href="#"
             class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-pink-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
             <div

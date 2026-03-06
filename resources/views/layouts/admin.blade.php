@@ -20,31 +20,31 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
-<body class="bg-slate-50 font-sans antialiased text-slate-800" x-data="{ mobileMenuOpen: false }">
+<body class="bg-slate-50 font-sans antialiased text-slate-800 print:bg-white" x-data="{ mobileMenuOpen: false }">
 
     <div class="min-h-screen flex flex-col">
 
         <!-- Top Navigation -->
-        <nav class="bg-slate-900 shadow-md sticky top-0 z-40">
+        <nav class="bg-slate-900 shadow-md sticky top-0 z-40 print:hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16 items-center">
 
                     <!-- Left side Logo -->
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('admin.users.index') ?? '/admin' }}"
-                            class="flex items-center text-white text-xl font-bold">
+                        <a href="/admin"
+                            class="flex items-center text-white text-xl font-bold uppercase tracking-wider">
                             <svg class="w-8 h-8 mr-2 text-blue-500" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
-                            APP PANEL
+                            BAYİ
                         </a>
                     </div>
 
                     <!-- Right side User Info & Logout -->
                     <div class="flex items-center space-x-4">
-                        <div class="hidden sm:flex flex-col text-right mr-2">
+                        <div class="hidden sm:flex flex-col text-right mr-6">
                             <span
                                 class="font-bold text-sm leading-tight text-white">{{ ucfirst(Auth::user()->username ?? 'Misafir') }}</span>
                             <span class="text-xs text-slate-400 uppercase">{{ Auth::user()->role ?? '' }}</span>
@@ -70,9 +70,10 @@
 
         <!-- Main Content -->
         <!-- Header replaced by the top navbar, but we keep yield content container -->
-        <main class="flex-1 w-full max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <main
+            class="flex-1 w-full max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 print:p-0 print:m-0 print:max-w-none print:w-full">
             <!-- Page Title Area -->
-            <div class="mb-4 sm:mb-8 border-b border-slate-200 pb-4">
+            <div class="mb-4 sm:mb-8 border-b border-slate-200 pb-4 print:hidden">
                 <h2 class="text-2xl font-bold leading-7 text-slate-900 sm:text-3xl sm:truncate">
                     @yield('header', 'Dashboard')
                 </h2>
@@ -82,7 +83,7 @@
         </main>
 
         <!-- Footer (Optional) -->
-        <footer class="bg-white border-t border-slate-200 mt-auto">
+        <footer class="bg-white border-t border-slate-200 mt-auto print:hidden">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <p class="text-center text-sm text-slate-500">
                     &copy; {{ date('Y') }} Servis Yönetim Paneli. Tüm hakları saklıdır.

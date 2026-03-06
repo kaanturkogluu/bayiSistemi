@@ -13,6 +13,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\MaintenanceController;
+use App\Http\Controllers\Admin\SettingController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
@@ -22,4 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/users', AccountController::class)->names('admin.users');
     Route::resource('admin/customers', CustomerController::class)->names('admin.customers');
     Route::resource('admin/maintenances', MaintenanceController::class)->names('admin.maintenances');
+
+    // Invoice Settings Routes
+    Route::get('admin/settings/invoice', [SettingController::class, 'invoice'])->name('admin.settings.invoice');
+    Route::put('admin/settings/invoice', [SettingController::class, 'updateInvoice'])->name('admin.settings.invoice.update');
 });

@@ -99,14 +99,70 @@ class MaintenanceController extends Controller
 
     public function edit(Maintenance $maintenance)
     {
-        // To be implemented in next step if user requests editing
-        abort(404, 'Düzenleme modülü daha sonra eklenecektir.');
+        $maintenance->load('parts');
+
+        // Load customers with their vehicles
+        $customers = Customer::with('vehicles')->orderBy('name_surname')->get();
+        // Create a map to pass cleanly to Javascript via Alpine
+        $customerVehicles = $customers->mapWithKeys(function ($c) {
+            return [
+                $c->id => $c->vehicles->map(function ($v) {
+                    return ['id' => $v->id, 'plate' => $v->plate];
+                })->values()->toArray()
+            ];
+        });
+
+        return view('admin.maintenances.edit', compact('maintenance', 'customers', 'customerVehicles'));
     }
 
     public function update(Request $request, Maintenance $maintenance)
     {
-        // To be implemented
-        abort(404);
+        $request->validate([
+            'customer_id' => ['required', 'exists:customers,id'],
+            'vehicle_id' => ['required', 'exists:vehicles,id'],
+            'labor_cost' => ['required', 'numeric', 'min:0'],
+            'total_cost' => ['required', 'numeric', 'min:0'],
+            'parts' => ['nullable', 'array'],
+            'parts.*.name' => ['required_with:parts', 'string', 'max:255'],
+            'parts.*.quantity' => ['required_with:parts', 'integer', 'min:1'],
+            'parts.*.unit_price' => ['required_with:parts', 'numeric', 'min:0'],
+            'parts.*.note' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $maintenance->update([
+                'customer_id' => $request->customer_id,
+                'vehicle_id' => $request->vehicle_id,
+                'labor_cost' => $request->labor_cost,
+                'total_cost' => $request->total_cost,
+            ]);
+
+            // Clear old parts
+            $maintenance->parts()->delete();
+
+            // Insert new parts
+            if ($request->has('parts') && is_array($request->parts)) {
+                foreach ($request->parts as $partData) {
+                    $maintenance->parts()->create([
+                        'name' => $partData['name'],
+                        'quantity' => $partData['quantity'],
+                        'unit_price' => $partData['unit_price'],
+                        'note' => $partData['note'] ?? null,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.maintenances.index')
+                ->with('success', 'Bakım kaydı başarıyla güncellendi.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()->with('error', 'Bakım güncellenirken bir hata oluştu: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Maintenance $maintenance)

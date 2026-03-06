@@ -17,7 +17,7 @@
 
         <div class="flex items-center gap-3">
             @if($maintenance->status === 'bekliyor')
-                <form action="{{ route('admin.usta.maintenances.complete', $maintenance) }}" method="POST"
+                <form id="complete-maintenance-form" action="{{ route('admin.usta.maintenances.complete', $maintenance) }}" method="POST"
                     onsubmit="return confirm('Tüm parçaların bakımını tamamladığınızdan emin misiniz?');">
                     @csrf
                     <button type="submit"
@@ -271,6 +271,20 @@
                                         if (data.success) {
                                             this.completed = data.is_completed;
                                             this.ustaName = data.completed_by_name;
+
+                                            // Automatically ask to complete the whole maintenance if all parts are done
+                                            if (data.all_completed) {
+                                                setTimeout(() => {
+                                                    window.dispatchEvent(new CustomEvent('open-confirm-modal', {
+                                                        detail: {
+                                                            actionText: "Tüm parçalar tamamlandı. Araç bakımını BİTİRMEK",
+                                                            onConfirm: () => {
+                                                                document.getElementById('complete-maintenance-form').submit();
+                                                            }
+                                                        }
+                                                    }));
+                                                }, 400); // Wait for the checkmark animation to finish first
+                                            }
                                         }
                                     } catch (error) {
                                         console.error("Error toggling part", error);

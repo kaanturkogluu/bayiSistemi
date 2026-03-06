@@ -64,10 +64,15 @@ class UstaMaintenanceController extends Controller
 
         $part->save();
 
+        $allCompleted = \App\Models\MaintenancePart::where('maintenance_id', $part->maintenance_id)
+            ->where('is_completed', false)
+            ->count() === 0;
+
         return response()->json([
             'success' => true,
             'is_completed' => $part->is_completed,
-            'completed_by_name' => $part->is_completed ? Auth::user()->username : null
+            'completed_by_name' => $part->is_completed ? Auth::user()->username : null,
+            'all_completed' => $allCompleted
         ]);
     }
 

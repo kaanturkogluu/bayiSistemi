@@ -71,8 +71,8 @@
                     </div>
 
                     <h3 class="font-bold text-slate-700 text-lg mb-1 truncate w-full"
-                        title="{{ $maintenance->customer->name_surname }}">
-                        {{ $maintenance->customer->name_surname }}
+                        title="{{ $maintenance->customer?->name_surname ?? 'Silinmiş Müşteri' }}">
+                        {{ $maintenance->customer?->name_surname ?? 'Silinmiş Müşteri' }}
                     </h3>
 
                     <div

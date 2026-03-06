@@ -24,10 +24,10 @@ class UstaMaintenanceController extends Controller
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->whereHas('customer', function ($cq) use ($search) {
-                    $cq->where('name_surname', 'like', "%{$search}%")
+                    $cq->withTrashed()->where('name_surname', 'like', "%{$search}%")
                         ->orWhere('phone', 'like', "%{$search}%");
                 })->orWhereHas('vehicle', function ($vq) use ($search) {
-                    $vq->where('plate', 'like', "%{$search}%");
+                    $vq->withTrashed()->where('plate', 'like', "%{$search}%");
                 });
             });
         }

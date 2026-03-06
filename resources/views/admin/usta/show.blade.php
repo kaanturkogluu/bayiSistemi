@@ -17,8 +17,8 @@
 
         <div class="flex items-center gap-3">
             @if($maintenance->status === 'bekliyor')
-                <form id="complete-maintenance-form" action="{{ route('admin.usta.maintenances.complete', $maintenance) }}" method="POST"
-                    onsubmit="return confirm('Tüm parçaların bakımını tamamladığınızdan emin misiniz?');">
+                <form id="complete-maintenance-form" action="{{ route('admin.usta.maintenances.complete', $maintenance) }}"
+                    method="POST" onsubmit="return confirm('Tüm parçaların bakımını tamamladığınızdan emin misiniz?');">
                     @csrf
                     <button type="submit"
                         class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-sm transition-colors flex items-center">
@@ -86,7 +86,8 @@
                     <div class="w-full space-y-3">
                         <div class="flex justify-between items-center py-2 border-b border-slate-100">
                             <span class="text-slate-500 text-sm">Müşteri</span>
-                            <span class="font-bold text-slate-800">{{ $maintenance->customer->name_surname }}</span>
+                            <span
+                                class="font-bold text-slate-800">{{ $maintenance->customer?->name_surname ?? 'Silinmiş Müşteri' }}</span>
                         </div>
                         <div class="flex justify-between items-center py-2 border-b border-slate-100">
                             <span class="text-slate-500 text-sm">Tarih</span>
@@ -189,14 +190,14 @@
 
     <!-- Confirmation Modal -->
     <div x-data="{ 
-                        open: false, 
-                        actionText: '', 
-                        onConfirm: null 
-                     }" @open-confirm-modal.window="
-                        open = true; 
-                        actionText = $event.detail.actionText; 
-                        onConfirm = $event.detail.onConfirm;
-                     " x-show="open" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;"
+                            open: false, 
+                            actionText: '', 
+                            onConfirm: null 
+                         }" @open-confirm-modal.window="
+                            open = true; 
+                            actionText = $event.detail.actionText; 
+                            onConfirm = $event.detail.onConfirm;
+                         " x-show="open" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;"
         aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">

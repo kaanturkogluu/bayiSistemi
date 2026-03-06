@@ -91,13 +91,13 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div
-                                        class="h-10 w-10 flex-shrink-0 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
-                                        {{ substr($maintenance->customer->name_surname, 0, 1) }}
+                                        class="w-9 h-9 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm shrink-0">
+                                        {{ $maintenance->customer ? mb_substr($maintenance->customer->name_surname, 0, 1) : '?' }}
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-slate-900">
-                                            {{ $maintenance->customer->name_surname }}
-                                        </div>
+                                        <div class="font-bold text-slate-800">
+                                            {{ $maintenance->customer?->name_surname ?? 'Silinmiş Müşteri' }}</div>
+                                        <div class="text-xs text-slate-500">{{ $maintenance->customer?->phone ?? '—' }}</div>
                                         <div class="text-xs text-slate-500 mt-1 flex items-center">
                                             @if($maintenance->vehicle)
                                                 <span

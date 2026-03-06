@@ -172,31 +172,42 @@
                 </div>
             </a>
 
-            <!-- Card 5 (Raporlar) -->
-            <a href="#"
-                class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-pink-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+            <!-- Card 5 (Nasıl Kullanılır?) -->
+            <div
+                class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
                 <div
-                    class="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                 </div>
                 <div class="p-6 relative z-10 flex flex-col h-full">
                     <div
-                        class="w-14 h-14 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-pink-600 group-hover:text-white transition-all duration-300">
+                        class="w-14 h-14 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                d="M9.663 17h4.674a1 1 0 0 1 .922.617l.334.834A1 1 0 0 1 14.674 20H9.326a1 1 0 0 1-.922-.549l-.334-.834A1 1 0 0 1 8.992 18h.671m4.674-1a10.04 10.04 0 0 0 3-7.5A10 10 0 1 0 5.177 15.303 3.23 3.23 0 0 0 8 18h8a3.23 3.23 0 0 0 2.823-2.697 10.04 10.04 0 0 0-3-7.5l-2.163 2.163">
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-pink-600 transition-colors">Raporlar</h3>
-                    <p class="text-slate-500 text-sm mb-4 flex-1">Sistem istatistikleri ve analiz raporları.</p>
-                    <div class="text-pink-600 font-medium text-sm flex items-center">
-                        Raporlara Git <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">Nasıl
+                        Kullanılır?</h3>
+                    <div class="text-slate-500 text-xs space-y-2 flex-1">
+                        <p class="flex items-start gap-2">
+                            <span
+                                class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-[10px] shrink-0 mt-0.5">1</span>
+                            <span>Müşteri ve araç kaydını oluşturun.</span>
+                        </p>
+                        <p class="flex items-start gap-2">
+                            <span
+                                class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-[10px] shrink-0 mt-0.5">2</span>
+                            <span>"Servis Oluştur" ile yeni bakım kaydı açın.</span>
+                        </p>
+                        <p class="flex items-start gap-2">
+                            <span
+                                class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-[10px] shrink-0 mt-0.5">3</span>
+                            <span>Bakımı tamamlayın ve ödemeyi (cari) kaydedin.</span>
+                        </p>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- Card 6: Audit Logs / Sistem Kayıtları -->
             <a href="{{ route('admin.audits.index') }}"

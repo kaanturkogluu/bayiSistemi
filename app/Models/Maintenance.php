@@ -15,6 +15,7 @@ class Maintenance extends Model
         'vehicle_id',
         'labor_cost',
         'total_cost',
+        'status',
     ];
 
     public function customer()

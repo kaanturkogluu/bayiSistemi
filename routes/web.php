@@ -27,4 +27,12 @@ Route::middleware('auth')->group(function () {
     // Invoice Settings Routes
     Route::get('admin/settings/invoice', [SettingController::class, 'invoice'])->name('admin.settings.invoice');
     Route::put('admin/settings/invoice', [SettingController::class, 'updateInvoice'])->name('admin.settings.invoice.update');
+
+    // Usta (Technician) Routes
+    Route::prefix('admin/usta')->name('admin.usta.')->group(function () {
+        Route::get('maintenances', [\App\Http\Controllers\Admin\UstaMaintenanceController::class, 'index'])->name('maintenances');
+        Route::get('maintenances/{maintenance}', [\App\Http\Controllers\Admin\UstaMaintenanceController::class, 'show'])->name('maintenances.show');
+        Route::post('parts/{part}/toggle', [\App\Http\Controllers\Admin\UstaMaintenanceController::class, 'togglePart'])->name('parts.toggle');
+        Route::post('maintenances/{maintenance}/complete', [\App\Http\Controllers\Admin\UstaMaintenanceController::class, 'complete'])->name('maintenances.complete');
+    });
 });

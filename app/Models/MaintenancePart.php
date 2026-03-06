@@ -16,10 +16,21 @@ class MaintenancePart extends Model
         'quantity',
         'unit_price',
         'note',
+        'is_completed',
+        'completed_by',
+    ];
+
+    protected $casts = [
+        'is_completed' => 'boolean',
     ];
 
     public function maintenance()
     {
         return $this->belongsTo(Maintenance::class);
+    }
+
+    public function completedBy()
+    {
+        return $this->belongsTo(Account::class, 'completed_by');
     }
 }

@@ -14,16 +14,25 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\CustomerTransactionController;
+use App\Http\Controllers\Admin\CariController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
-        return view('admin.dashboard');
+        $totalBalance = \App\Models\Customer::sum('balance');
+        return view('admin.dashboard', compact('totalBalance'));
     });
 
     Route::resource('admin/users', AccountController::class)->names('admin.users');
     Route::resource('admin/customers', CustomerController::class)->names('admin.customers');
     Route::resource('admin/maintenances', MaintenanceController::class)->names('admin.maintenances');
     Route::post('admin/maintenances/{maintenance}/complete', [MaintenanceController::class, 'complete'])->name('admin.maintenances.complete');
+
+    // Cari Routes
+    Route::get('admin/cari', [CariController::class, 'index'])->name('admin.cari.index');
+    Route::get('admin/customers/{customer}/maintenances', [CustomerController::class, 'maintenances'])->name('admin.customers.maintenances');
+    Route::post('admin/customers/{customer}/transactions', [CustomerTransactionController::class, 'store'])->name('admin.customers.transactions.store');
+    Route::delete('admin/transactions/{transaction}', [CustomerTransactionController::class, 'destroy'])->name('admin.transactions.destroy');
 
     // Invoice Settings Routes
     Route::get('admin/settings/invoice', [SettingController::class, 'invoice'])->name('admin.settings.invoice');

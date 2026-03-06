@@ -11,7 +11,8 @@ class Customer extends Model
 
     protected $fillable = [
         'name_surname',
-        'phone'
+        'phone',
+        'balance'
     ];
 
     public function vehicles()
@@ -22,5 +23,18 @@ class Customer extends Model
     public function maintenances()
     {
         return $this->hasMany(Maintenance::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(CustomerTransaction::class);
+    }
+
+    public function recalculateBalance()
+    {
+        $debt = $this->transactions()->where('type', 'debt')->sum('amount');
+        $payment = $this->transactions()->where('type', 'payment')->sum('amount');
+        $this->balance = $debt - $payment;
+        $this->save();
     }
 }

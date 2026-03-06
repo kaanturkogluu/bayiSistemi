@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Maintenance;
+use App\Models\CustomerTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,6 +14,11 @@ class MaintenanceController extends Controller
     public function index(Request $request)
     {
         $query = Maintenance::with(['customer', 'vehicle'])->latest();
+
+        $statusFilter = $request->query('status');
+        if ($statusFilter && in_array($statusFilter, ['bekliyor', 'tamamlandi'])) {
+            $query->where('status', $statusFilter);
+        }
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -27,10 +33,10 @@ class MaintenanceController extends Controller
         $maintenances = $query->paginate(10)->withQueryString();
         $searchQuery = $request->search;
 
-        return view('admin.maintenances.index', compact('maintenances', 'searchQuery'));
+        return view('admin.maintenances.index', compact('maintenances', 'searchQuery', 'statusFilter'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         // Load customers with their vehicles
         $customers = Customer::with('vehicles')->orderBy('name_surname')->get();
@@ -42,7 +48,10 @@ class MaintenanceController extends Controller
                 })->values()->toArray()
             ];
         });
-        return view('admin.maintenances.create', compact('customers', 'customerVehicles'));
+
+        $selectedCustomerId = $request->query('customer_id');
+
+        return view('admin.maintenances.create', compact('customers', 'customerVehicles', 'selectedCustomerId'));
     }
 
     public function store(Request $request)
@@ -79,6 +88,18 @@ class MaintenanceController extends Controller
                     ]);
                 }
             }
+
+            // Create debt transaction
+            $maintenance->transactions()->create([
+                'customer_id' => $maintenance->customer_id,
+                'type' => 'debt',
+                'amount' => $maintenance->total_cost,
+                'description' => 'Bakım Hizmet Bedeli (#' . str_pad($maintenance->id, 5, '0', STR_PAD_LEFT) . ')',
+                'date' => now(),
+            ]);
+
+            // Recalculate balance
+            $maintenance->customer->recalculateBalance();
 
             DB::commit();
 
@@ -154,6 +175,26 @@ class MaintenanceController extends Controller
                 }
             }
 
+            // Update debt transaction
+            $debtTransaction = $maintenance->transactions()->where('type', 'debt')->first();
+            if ($debtTransaction) {
+                $debtTransaction->update([
+                    'customer_id' => $maintenance->customer_id,
+                    'amount' => $maintenance->total_cost,
+                ]);
+            } else {
+                $maintenance->transactions()->create([
+                    'customer_id' => $maintenance->customer_id,
+                    'type' => 'debt',
+                    'amount' => $maintenance->total_cost,
+                    'description' => 'Bakım Hizmet Bedeli (#' . str_pad($maintenance->id, 5, '0', STR_PAD_LEFT) . ')',
+                    'date' => now(),
+                ]);
+            }
+
+            // Recalculate balances (just in case customer changed)
+            $maintenance->customer->recalculateBalance();
+
             DB::commit();
 
             return redirect()->route('admin.maintenances.index')
@@ -186,7 +227,18 @@ class MaintenanceController extends Controller
 
     public function destroy(Maintenance $maintenance)
     {
+        $customer = $maintenance->customer;
+
+        // Delete associated transactions
+        $maintenance->transactions()->delete();
+
         $maintenance->delete();
+
+        // Recalculate balance
+        if ($customer) {
+            $customer->recalculateBalance();
+        }
+
         return redirect()->route('admin.maintenances.index')
             ->with('success', 'Bakım kaydı başarıyla silindi.');
     }

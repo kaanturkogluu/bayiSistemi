@@ -76,6 +76,9 @@
                             class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider text-center">
                             Araç Sayısı</th>
                         <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                            Bakiye</th>
+                        <th scope="col"
                             class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Kayıt
                             Tarihi</th>
                         <th scope="col"
@@ -121,10 +124,20 @@
                                     {{ $customer->vehicles_count }} Araç
                                 </span>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span
+                                    class="text-sm font-bold {{ $customer->balance > 0 ? 'text-red-600' : ($customer->balance < 0 ? 'text-emerald-600' : 'text-slate-900') }}">
+                                    {{ number_format($customer->balance, 2, ',', '.') }} ₺
+                                </span>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                                 {{ $customer->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <a href="{{ route('admin.maintenances.create', ['customer_id' => $customer->id]) }}"
+                                    class="text-emerald-600 hover:text-emerald-900 mr-3 font-bold">Servis Oluştur</a>
+                                <a href="{{ route('admin.customers.show', $customer) }}"
+                                    class="text-indigo-600 hover:text-indigo-900 mr-3">Cari</a>
                                 <a href="{{ route('admin.customers.edit', $customer) }}"
                                     class="text-blue-600 hover:text-blue-900 mr-3">Düzenle</a>
                                 <form action="{{ route('admin.customers.destroy', $customer) }}" method="POST"
@@ -154,11 +167,11 @@
                 </tbody>
             </table>
         </div>
-        
+
         @if ($customers->hasPages())
-        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50">
-            {{ $customers->links() }}
-        </div>
+            <div class="px-6 py-4 border-t border-slate-200 bg-slate-50">
+                {{ $customers->links() }}
+            </div>
         @endif
     </div>
 @endsection

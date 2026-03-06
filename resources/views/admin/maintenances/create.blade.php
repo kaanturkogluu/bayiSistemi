@@ -120,7 +120,7 @@
                     <!-- Titles for desktop -->
                     <div class="hidden md:grid md:grid-cols-12 gap-4 px-4 py-3 bg-slate-100/50 rounded-t-lg border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                         <div class="md:col-span-4">Parça Adı <span class="text-red-500">*</span></div>
-                        <div class="md:col-span-2">Miktar <span class="text-red-500">*</span></div>
+                        <div class="md:col-span-2">Adet <span class="text-red-500">*</span></div>
                         <div class="md:col-span-2 text-right">Birim Fiyat (TL) <span class="text-red-500">*</span></div>
                         <div class="md:col-span-3">Not / Açıklama</div>
                         <div class="md:col-span-1 text-center">Sil</div>
@@ -147,7 +147,7 @@
                             
                             <!-- Quantity -->
                             <div class="md:col-span-2">
-                                <label class="md:hidden block text-xs font-medium text-slate-500 mb-1">Miktar</label>
+                                <label class="md:hidden block text-xs font-medium text-slate-500 mb-1">Adet</label>
                                 <div class="flex items-center">
                                     <input type="number" step="1" min="1" x-model.number="part.quantity" :name="'parts['+index+'][quantity]'" required
                                         class="w-full px-3 py-2 text-sm rounded-md border border-slate-300 focus:ring-blue-500 focus:border-blue-500 outline-none md:text-center text-right font-medium text-slate-700">
@@ -249,7 +249,7 @@
                 isSubmitting: false,
                 laborCost: {{ old('labor_cost', 0) }},
                 displayLaborCost: '{{ number_format(old('labor_cost', 0), 2, ',', '.') }}',
-                selectedCustomer: '{{ old('customer_id', '') }}',
+                selectedCustomer: '{{ old('customer_id', $selectedCustomerId ?? '') }}',
                 selectedVehicle: '{{ old('vehicle_id', '') }}',
                 customerVehiclesMap: @json($customerVehicles),
 

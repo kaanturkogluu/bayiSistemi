@@ -66,6 +66,43 @@
                 </div>
             </a>
 
+            <!-- Card 3: Cari & Ödeme (NEW) -->
+            <a href="{{ route('admin.cari.index') }}"
+                class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-blue-600 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="p-6 relative z-10 flex flex-col h-full">
+                    <div
+                        class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Cari & Ödeme
+                    </h3>
+                    <div class="mb-4 flex-1">
+                        <p class="text-slate-500 text-sm mb-2">Müşteri borç-alacak takibi ve tahsilat işlemlerini yönetin.</p>
+                        <div
+                            class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold {{ $totalBalance > 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700' }}">
+                            @if($totalBalance > 0)
+                                Toplam Bekleyen: {{ number_format($totalBalance, 2, ',', '.') }} ₺
+                            @else
+                                Tüm Hesaplar Dengede
+                            @endif
+                        </div>
+                    </div>
+                    <div class="text-blue-600 font-medium text-sm flex items-center">
+                        Hesapları İncele <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
         </div>
 
         <!-- Divider -->
@@ -77,7 +114,7 @@
 
         <!-- Priority Level 2 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            
+
             <!-- Card 3: User Management -->
             <a href="{{ route('admin.users.index') }}"
                 class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
@@ -166,22 +203,29 @@
     @if(Auth::user()->role === 'usta')
         <!-- Usta (Technician) Dashboard -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+
             <!-- Pending Maintenances -->
             <a href="{{ route('admin.usta.maintenances', ['status' => 'bekliyor']) }}"
                 class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
                 <div class="p-8 relative z-10 flex flex-col items-center text-center h-full">
-                    <div class="w-20 h-20 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <div
+                        class="w-20 h-20 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-amber-600 transition-colors">Bekleyen Bakımlar</h3>
-                    <p class="text-slate-500 text-base mb-6 flex-1">İşlem sırası bekleyen veya devam eden araçları görüntüleyin.</p>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-amber-600 transition-colors">Bekleyen
+                        Bakımlar</h3>
+                    <p class="text-slate-500 text-base mb-6 flex-1">İşlem sırası bekleyen veya devam eden araçları görüntüleyin.
+                    </p>
                     <div class="text-amber-600 font-bold text-base flex items-center bg-amber-50 px-4 py-2 rounded-lg">
-                        Listeye Git 
-                        <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        Listeye Git
+                        <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </div>
@@ -191,18 +235,25 @@
             <!-- Completed Maintenances -->
             <a href="{{ route('admin.usta.maintenances', ['status' => 'tamamlandi']) }}"
                 class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
                 <div class="p-8 relative z-10 flex flex-col items-center text-center h-full">
-                    <div class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <div
+                        class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">Tamamlanan Bakımlar</h3>
-                    <p class="text-slate-500 text-base mb-6 flex-1">Tüm işlemleri ve parça montajları bitmiş olan araçların geçmiş kayıtları.</p>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">Tamamlanan
+                        Bakımlar</h3>
+                    <p class="text-slate-500 text-base mb-6 flex-1">Tüm işlemleri ve parça montajları bitmiş olan araçların
+                        geçmiş kayıtları.</p>
                     <div class="text-emerald-600 font-bold text-base flex items-center bg-emerald-50 px-4 py-2 rounded-lg">
-                        Listeye Git 
-                        <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        Listeye Git
+                        <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </div>

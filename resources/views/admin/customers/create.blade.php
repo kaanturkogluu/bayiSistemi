@@ -14,7 +14,7 @@
     </div>
 
     <div x-data="customerForm()" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden max-w-2xl">
-        <form action="{{ route('admin.customers.store') }}" method="POST" class="p-6 sm:p-8 space-y-6">
+        <form action="{{ route('admin.customers.store') }}" method="POST" class="p-6 sm:p-8 space-y-6" @submit="isSubmitting = true">
             @csrf
 
             <!-- Name Surname -->
@@ -34,16 +34,16 @@
             </div>
 
             <!-- Phone -->
-            <div>
+            <div x-data="{ phoneStr: '{{ str_replace('+90 ', '', str_replace('+90', '', old('phone', ''))) }}' }">
                 <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">Telefon</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                    </div>
-                    <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
-                        x-mask="+90 (999) 999 99 99"
-                        class="pl-10 w-full px-4 py-3 rounded-lg border @error('phone') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all"
-                        placeholder="+90 (555) 555 55 55">
+                <div class="relative flex">
+                    <span class="inline-flex items-center px-4 py-3 rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 text-slate-500 font-bold shrink-0 select-none">
+                        +90
+                    </span>
+                    <input type="text" x-model="phoneStr" x-mask="(999) 999 99 99"
+                        class="w-full px-4 py-3 rounded-r-lg border @error('phone') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all"
+                        placeholder="(555) 555 55 55">
+                    <input type="hidden" name="phone" id="phone" :value="phoneStr ? '+90 ' + phoneStr : ''">
                 </div>
                 @error('phone')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -58,7 +58,7 @@
 
                 <div class="space-y-3">
                     <template x-for="(plate, index) in plates" :key="index">
-                        <div class="flex items-center space-x-3">
+                        <div class="flex items-center space-x-3" x-transition>
                             <div class="relative flex-1">
                                 <input type="text" x-model="plate.value" :name="'plates[]'" 
                                     class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none uppercase" 
@@ -86,8 +86,20 @@
                 <a href="{{ route('admin.customers.index') }}" class="px-5 py-2.5 border border-slate-300 rounded-lg text-slate-700 bg-white hover:bg-slate-50 font-medium transition-colors">
                     İptal
                 </a>
-                <button type="submit" class="px-5 py-2.5 border border-transparent rounded-lg text-white bg-blue-600 hover:bg-blue-700 font-medium transition-colors shadow-sm">
+                <button type="submit" 
+                        :disabled="isSubmitting"
+                        :class="isSubmitting ? 'bg-slate-400 cursor-not-allowed hidden' : 'bg-blue-600 hover:bg-blue-700'"
+                        class="px-5 py-2.5 border border-transparent rounded-lg text-white font-medium transition-colors shadow-sm inline-flex items-center">
                     Müşteriyi Kaydet
+                </button>
+                <!-- Loading state indicator -->
+                <button type="button" disabled x-show="isSubmitting" style="display: none;"
+                        class="px-5 py-2.5 border border-transparent rounded-lg text-white font-medium bg-slate-400 cursor-not-allowed shadow-sm inline-flex items-center">
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Kaydediliyor...
                 </button>
             </div>
         </form>
@@ -97,6 +109,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('customerForm', () => ({
+                isSubmitting: false,
                 plates: [
                     @if(old('plates'))
                         @foreach(old('plates') as $plate)

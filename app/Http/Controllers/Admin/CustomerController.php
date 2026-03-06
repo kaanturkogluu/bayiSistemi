@@ -37,6 +37,16 @@ class CustomerController extends Controller
             'plates.*' => ['nullable', 'string', 'max:50']
         ]);
 
+        // Spam / Duplicate check: If a customer with the exact same name and phone already exists, don't create a new one.
+        $existingCustomer = Customer::where('name_surname', $validated['name_surname'])
+            ->where('phone', $validated['phone'] ?? null)
+            ->first();
+
+        if ($existingCustomer) {
+            return redirect()->route('admin.customers.index')
+                ->with('success', 'Müşteri başarıyla kayıt edildi.'); // Show success to not confuse the user, but prevent duplicate.
+        }
+
         $customer = Customer::create([
             'name_surname' => $validated['name_surname'],
             'phone' => $validated['phone'] ?? null,
@@ -52,6 +62,29 @@ class CustomerController extends Controller
 
         return redirect()->route('admin.customers.index')
             ->with('success', 'Müşteri başarıyla kayıt edildi.');
+    }
+
+    public function show(Customer $customer)
+    {
+        $customer->load([
+            'transactions' => function ($query) {
+                $query->latest('date')->latest('id');
+            },
+            'vehicles',
+            'maintenances'
+        ]);
+
+        return view('admin.customers.show', compact('customer'));
+    }
+
+    public function maintenances(Customer $customer)
+    {
+        $maintenances = $customer->maintenances()
+            ->with(['vehicle', 'parts', 'completedBy'])
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.customers.maintenances', compact('customer', 'maintenances'));
     }
 
     public function edit(Customer $customer)

@@ -24,6 +24,11 @@ class Maintenance extends Model
         return $this->belongsTo(Account::class, 'completed_by');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(CustomerTransaction::class);
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);

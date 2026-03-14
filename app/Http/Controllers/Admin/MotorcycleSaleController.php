@@ -40,6 +40,12 @@ class MotorcycleSaleController extends Controller
         ]);
 
         $motorcycle = Motorcycle::findOrFail($validated['motorcycle_id']);
+        $customer = Customer::findOrFail($validated['customer_id']);
+
+        // Check if customer has TC and Address
+        if (empty($customer->tc_no) || empty($customer->address)) {
+            return back()->with('error', 'Satış yapılamaz: Müşterinin TC No ve Adres bilgileri sistemde kayıtlı olmalıdır.');
+        }
         
         if ($motorcycle->status !== 'stokta') {
             return back()->with('error', 'Bu motosiklet zaten satılmış veya stokta değil.');

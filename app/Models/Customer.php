@@ -13,7 +13,9 @@ class Customer extends Model implements Auditable
 
     protected $fillable = [
         'name_surname',
+        'tc_no',
         'phone',
+        'address',
         'balance'
     ];
 

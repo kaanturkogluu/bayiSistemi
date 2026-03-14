@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/maintenances/{maintenance}/complete', [MaintenanceController::class, 'complete'])->name('admin.maintenances.complete');
 
     // Cari Routes
+    Route::post('admin/customers/quick-store', [CustomerController::class, 'quickStore'])->name('admin.customers.quick_store');
     Route::get('admin/cari', [CariController::class, 'index'])->name('admin.cari.index');
     Route::get('admin/customers/{customer}/maintenances', [CustomerController::class, 'maintenances'])->name('admin.customers.maintenances');
     Route::post('admin/customers/{customer}/transactions', [CustomerTransactionController::class, 'store'])->name('admin.customers.transactions.store');

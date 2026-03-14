@@ -13,8 +13,14 @@
                 </svg>
             </a>
             <div>
-                <h1 class="text-2xl font-bold text-slate-800">{{ $customer->name_surname }}</h1>
+                <h1 class="text-2xl font-bold text-slate-800">{{ $customer->name_surname }} <span class="text-sm font-normal text-slate-400 ml-2">TC: {{ $customer->tc_no ?? 'Belirtilmemiş' }}</span></h1>
                 <p class="text-slate-500 text-sm">{{ $customer->phone ?? 'Telefon belirtilmemiş' }} &bull; Cari Hesap Takibi</p>
+                @if($customer->address)
+                    <p class="text-slate-400 text-xs mt-1 flex items-start gap-1">
+                        <svg class="w-3.5 h-3.5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        {{ $customer->address }}
+                    </p>
+                @endif
             </div>
         </div>
         <div class="flex gap-2">

@@ -33,6 +33,22 @@
                 @enderror
             </div>
 
+            <!-- TC No -->
+            <div>
+                <label for="tc_no" class="block text-sm font-medium text-slate-700 mb-1">TC Kimlik No</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
+                    <input type="text" name="tc_no" id="tc_no" value="{{ old('tc_no') }}" maxlength="11" x-mask="99999999999"
+                        class="pl-10 w-full px-4 py-3 rounded-lg border @error('tc_no') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all"
+                        placeholder="11 Haneli TC No">
+                </div>
+                @error('tc_no')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Phone -->
             <div x-data="{ phoneStr: '{{ str_replace('+90 ', '', str_replace('+90', '', old('phone', ''))) }}' }">
                 <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">Telefon</label>
@@ -46,6 +62,17 @@
                     <input type="hidden" name="phone" id="phone" :value="phoneStr ? '+90 ' + phoneStr : ''">
                 </div>
                 @error('phone')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Address -->
+            <div>
+                <label for="address" class="block text-sm font-medium text-slate-700 mb-1">Adres</label>
+                <textarea name="address" id="address" rows="3"
+                    class="w-full px-4 py-3 rounded-lg border @error('address') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all"
+                    placeholder="Müşterinin açık adresi...">{{ old('address') }}</textarea>
+                @error('address')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

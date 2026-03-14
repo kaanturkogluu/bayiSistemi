@@ -32,7 +32,9 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
             'name_surname' => ['required', 'string', 'max:255'],
+            'tc_no' => ['nullable', 'string', 'digits:11'],
             'phone' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string'],
             'plates' => ['nullable', 'array'],
             'plates.*' => ['nullable', 'string', 'max:50']
         ]);
@@ -49,7 +51,9 @@ class CustomerController extends Controller
 
         $customer = Customer::create([
             'name_surname' => $validated['name_surname'],
+            'tc_no' => $validated['tc_no'] ?? null,
             'phone' => $validated['phone'] ?? null,
+            'address' => $validated['address'] ?? null,
         ]);
 
         if (!empty($validated['plates'])) {
@@ -62,6 +66,23 @@ class CustomerController extends Controller
 
         return redirect()->route('admin.customers.index')
             ->with('success', 'Müşteri başarıyla kayıt edildi.');
+    }
+
+    public function quickStore(Request $request)
+    {
+        $validated = $request->validate([
+            'name_surname' => ['required', 'string', 'max:255'],
+            'tc_no' => ['nullable', 'string', 'digits:11'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string'],
+        ]);
+
+        $customer = Customer::create($validated);
+
+        return response()->json([
+            'success' => true,
+            'customer' => $customer
+        ]);
     }
 
     public function show(Customer $customer)
@@ -97,14 +118,18 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
             'name_surname' => ['required', 'string', 'max:255'],
+            'tc_no' => ['nullable', 'string', 'digits:11'],
             'phone' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string'],
             'plates' => ['nullable', 'array'],
             'plates.*' => ['nullable', 'string', 'max:50']
         ]);
 
         $customer->update([
             'name_surname' => $validated['name_surname'],
+            'tc_no' => $validated['tc_no'] ?? null,
             'phone' => $validated['phone'] ?? null,
+            'address' => $validated['address'] ?? null,
         ]);
 
         // Re-sync plates: delete existing, and recreate

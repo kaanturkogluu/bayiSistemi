@@ -39,7 +39,15 @@
                     
                     <div class="space-y-4">
                         <div>
-                            <label for="customer_id" class="block text-sm font-bold text-slate-700 mb-1">Müşteri Seçin <span class="text-red-500">*</span></label>
+                            <div class="flex items-center justify-between mb-1">
+                                <label for="customer_id" class="block text-sm font-bold text-slate-700">Müşteri Seçin <span class="text-red-500">*</span></label>
+                                <button type="button" onclick="openCustomerModal()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Hızlı Müşteri Ekle
+                                </button>
+                            </div>
                             <select name="customer_id" id="customer_id" required class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-white text-sm">
                                 <option value="">Müşteri Ara veya Seç...</option>
                                 @foreach($customers as $customer)
@@ -129,8 +137,160 @@
     </form>
 </div>
 
+<!-- Quick Customer Modal -->
+<style>
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 50;
+    }
+    .modal-content-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 51;
+        padding: 1rem;
+        pointer-events: none;
+    }
+    .modal-card {
+        background: white;
+        border-radius: 1rem;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        position: relative;
+        pointer-events: auto;
+    }
+</style>
+
+<div id="customer-modal" class="hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content-wrapper">
+        <div class="modal-card overflow-hidden">
+            <div class="bg-white px-6 pt-6 pb-4 sm:p-6 sm:pb-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-bold text-slate-900">Hızlı Müşteri Ekle</h3>
+                    <button type="button" onclick="closeCustomerModal()" class="text-slate-400 hover:text-slate-500 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="modal_name_surname" class="block text-sm font-bold text-slate-700 mb-1">Ad Soyad <span class="text-red-500">*</span></label>
+                        <input type="text" id="modal_name_surname" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" placeholder="Müşteri Adı Soyadı">
+                    </div>
+                    <div>
+                        <label for="modal_tc_no" class="block text-sm font-bold text-slate-700 mb-1">TC Kimlik No <span class="text-red-500">*</span></label>
+                        <input type="text" id="modal_tc_no" maxlength="11" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" placeholder="11 Haneli TC No">
+                    </div>
+                    <div>
+                        <label for="modal_phone" class="block text-sm font-bold text-slate-700 mb-1">Telefon</label>
+                        <input type="text" id="modal_phone" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" placeholder="05XX XXX XX XX">
+                    </div>
+                    <div>
+                        <label for="modal_address" class="block text-sm font-bold text-slate-700 mb-1">Adres <span class="text-red-500">*</span></label>
+                        <textarea id="modal_address" rows="3" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" placeholder="Müşterinin açık adresi..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 px-6 py-4 sm:flex sm:flex-row-reverse">
+                <button type="button" onclick="submitQuickCustomer()" id="modal-submit-btn" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-bold text-white hover:bg-indigo-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm transition-all flex items-center">
+                    <span>Kaydet</span>
+                    <span id="modal-spinner" class="hidden ml-2">
+                        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </span>
+                </button>
+                <button type="button" onclick="closeCustomerModal()" class="mt-3 w-full inline-flex justify-center rounded-xl border border-slate-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-all">
+                    İptal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
 <script>
+function openCustomerModal() {
+    document.getElementById('customer-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCustomerModal() {
+    document.getElementById('customer-modal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    // Clear inputs
+    document.getElementById('modal_name_surname').value = '';
+    document.getElementById('modal_tc_no').value = '';
+    document.getElementById('modal_phone').value = '';
+    document.getElementById('modal_address').value = '';
+}
+
+async function submitQuickCustomer() {
+    const name_surname = document.getElementById('modal_name_surname').value;
+    const tc_no = document.getElementById('modal_tc_no').value;
+    const phone = document.getElementById('modal_phone').value;
+    const address = document.getElementById('modal_address').value;
+    const btn = document.getElementById('modal-submit-btn');
+    const spinner = document.getElementById('modal-spinner');
+
+    if (!name_surname || !tc_no || !address) {
+        alert('Lütfen Ad Soyad, TC No ve Adres alanlarını doldurunuz.');
+        return;
+    }
+
+    if (tc_no.length !== 11) {
+        alert('TC No 11 haneli olmalıdır.');
+        return;
+    }
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+
+    try {
+        const response = await fetch("{{ route('admin.customers.quick_store') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ name_surname, tc_no, phone, address })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Add to Select2
+            const newOption = new Option(data.customer.name_surname + (data.customer.phone ? ' (' + data.customer.phone + ')' : ''), data.customer.id, true, true);
+            $('#customer_id').append(newOption).trigger('change');
+            closeCustomerModal();
+        } else {
+            alert('Müşteri eklenirken bir hata oluştu.');
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Bir hata oluştu.');
+    } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+    }
+}
+
 $(document).ready(function() {
     $('#customer_id').select2({
         placeholder: "Müşteri Ara veya Seç..."

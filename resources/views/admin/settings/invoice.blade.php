@@ -18,11 +18,7 @@
 
         <div class="bg-white border text-slate-800 border-slate-200 shadow-sm rounded-xl p-6 sm:p-10">
 
-            @if(session('success'))
-                <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg relative" role="alert">
-                    <span class="block sm:inline font-medium">{{ session('success') }}</span>
-                </div>
-            @endif
+
 
             <form method="POST" action="{{ route('admin.settings.invoice.update') }}" enctype="multipart/form-data">
                 @csrf

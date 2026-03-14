@@ -72,6 +72,7 @@
         <!-- Header replaced by the top navbar, but we keep yield content container -->
         <main
             class="flex-1 w-full max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 print:p-0 print:m-0 print:max-w-none print:w-full">
+            @include('admin.partials.alerts')
             @yield('content')
         </main>
 

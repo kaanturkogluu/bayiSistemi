@@ -53,4 +53,10 @@ Route::middleware('auth')->group(function () {
         Route::post('parts/{part}/toggle', [\App\Http\Controllers\Admin\UstaMaintenanceController::class, 'togglePart'])->name('parts.toggle');
         Route::post('maintenances/{maintenance}/complete', [\App\Http\Controllers\Admin\UstaMaintenanceController::class, 'complete'])->name('maintenances.complete');
     });
+
+    // Data Center Routes
+    Route::get('admin/data-center', [\App\Http\Controllers\Admin\DataCenterController::class, 'index'])->name('admin.data_center.index');
+    Route::resource('admin/brands', \App\Http\Controllers\Admin\BrandController::class)->names('admin.brands');
+    Route::resource('admin/colors', \App\Http\Controllers\Admin\ColorController::class)->names('admin.colors');
+    Route::resource('admin/motorcycle-models', \App\Http\Controllers\Admin\MotorcycleModelController::class)->names('admin.motorcycle-models');
 });

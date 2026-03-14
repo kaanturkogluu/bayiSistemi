@@ -52,10 +52,15 @@
             <!-- Role -->
             <div>
                 <label for="role" class="block text-sm font-medium text-slate-700 mb-1">Kullanıcı Rolü</label>
-                <select id="role" name="role" required class="w-full px-4 py-3 rounded-lg border @error('role') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all bg-white appearance-none">
-                    <option value="bayi" {{ old('role', $user->role) === 'bayi' ? 'selected' : '' }}>Bayi</option>
-                    <option value="usta" {{ old('role', $user->role) === 'usta' ? 'selected' : '' }}>Usta</option>
-                </select>
+                <div class="relative">
+                    <select id="role" name="role" required class="w-full px-4 py-3 rounded-lg border @error('role') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all bg-white appearance-none">
+                        <option value="bayi" {{ old('role', $user->role) === 'bayi' ? 'selected' : '' }}>Bayi</option>
+                        <option value="usta" {{ old('role', $user->role) === 'usta' ? 'selected' : '' }}>Usta</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
                 @error('role')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

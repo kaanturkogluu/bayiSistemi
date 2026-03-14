@@ -59,7 +59,7 @@
                 <div class="relative z-10 w-full flex flex-col items-center">
                     <!-- Plate Container (Turkish License Plate Style) -->
                     <div
-                        class="border-4 border-slate-800 rounded-lg overflow-hidden bg-white shadow-sm flex items-stretch h-14 w-full max-w-[200px] mb-4 group-hover:scale-105 transition-transform">
+                        class="border-4 border-slate-800 rounded-lg overflow-hidden bg-white shadow-sm flex items-stretch h-14 w-full max-w-[200px] mb-3 group-hover:scale-105 transition-transform">
                         <div class="bg-blue-600 w-10 flex flex-col items-center justify-center text-white shrink-0">
                             <span class="text-[10px] font-bold leading-none mb-1">TR</span>
                         </div>
@@ -68,6 +68,13 @@
                                 {{ $maintenance->vehicle ? $maintenance->vehicle->plate : 'Plakasız' }}
                             </span>
                         </div>
+                    </div>
+
+                    <div class="text-sm text-slate-500 mb-3 flex items-center justify-center gap-1.5 font-medium" title="Kayıt Tarihi">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>{{ $maintenance->created_at ? $maintenance->created_at->format('d.m.Y H:i') : '-' }}</span>
                     </div>
 
                     <h3 class="font-bold text-slate-700 text-lg mb-1 truncate w-full"

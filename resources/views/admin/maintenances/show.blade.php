@@ -253,46 +253,45 @@
         </div>
 
         <!-- Blue Table Header & Body -->
-        <table class="w-full text-left border-collapse text-xs mb-1">
+        <table class="w-full text-left border-collapse text-[10px] mb-1">
             <thead>
                 <tr
-                    class="bg-[#007bff] text-white print:bg-transparent print:text-black print:border-b-2 print:border-slate-800">
-                    <th class="py-2.5 px-3 font-semibold text-center w-8">#</th>
-                    <th class="py-2.5 px-2 font-semibold">Parça Adı</th>
-                    <th class="py-2.5 px-2 font-semibold text-center w-20">Adet</th>
-                    <th class="py-2.5 px-2 font-semibold text-right w-24">Birim Fiyat</th>
-                    <th class="py-2.5 px-3 font-semibold text-right w-28">Toplam</th>
+                    class="bg-[#007bff] text-white print:bg-transparent print:text-black print:border-b print:border-slate-800">
+                    <th class="py-1 px-2 font-semibold text-center w-8">#</th>
+                    <th class="py-1 px-2 font-semibold">Parça Adı</th>
+                    <th class="py-1 px-2 font-semibold text-center w-16">Adet</th>
+                    <th class="py-1 px-2 font-semibold text-right w-20">B.Fiyat</th>
+                    <th class="py-1 px-2 font-semibold text-right w-24">Toplam</th>
                 </tr>
             </thead>
             <tbody class="text-[#1e293b] font-medium print:text-black">
                 @php $index = 1; @endphp
                 @forelse ($maintenance->parts as $part)
-                    <tr class="border-b border-gray-200 print:border-slate-300">
-                        <td class="py-2.5 px-3 text-center text-[#64748b] print:text-slate-600">{{ $index++ }}</td>
-                        <td class="py-2.5 px-2">{{ mb_strtoupper($part->name) }}</td>
-                        <td class="py-2.5 px-2 text-center">{{ $part->quantity }}</td>
-                        <td class="py-2.5 px-2 text-right">{{ number_format($part->unit_price, 2, '.', ',') }} ₺</td>
-                        <td class="py-2.5 px-3 text-right">{{ number_format($part->quantity * $part->unit_price, 2, '.', ',') }}
-                            ₺</td>
+                    <tr class="border-b border-gray-100 print:border-slate-200">
+                        <td class="py-1 px-2 text-center text-[#64748b] print:text-slate-600">{{ $index++ }}</td>
+                        <td class="py-1 px-2">{{ mb_strtoupper($part->name) }}</td>
+                        <td class="py-1 px-2 text-center">{{ $part->quantity }}</td>
+                        <td class="py-1 px-2 text-right">{{ number_format($part->unit_price, 2, '.', ',') }} ₺</td>
+                        <td class="py-1 px-2 text-right">{{ number_format($part->quantity * $part->unit_price, 2, '.', ',') }} ₺</td>
                     </tr>
                 @empty
                 @endforelse
 
                 @if($maintenance->labor_cost > 0)
-                    <tr class="border-b border-gray-200 print:border-slate-300">
-                        <td class="py-2.5 px-3 text-center text-[#64748b] print:text-slate-600">{{ $index++ }}</td>
-                        <td class="py-2.5 px-2 text-[#334155] font-bold print:text-black">İŞÇİLİK</td>
-                        <td class="py-2.5 px-2 text-center">1</td>
-                        <td class="py-2.5 px-2 text-right">{{ number_format($maintenance->labor_cost, 2, '.', ',') }} ₺</td>
-                        <td class="py-2.5 px-3 text-right">{{ number_format($maintenance->labor_cost, 2, '.', ',') }} ₺</td>
+                    <tr class="border-b border-gray-100 print:border-slate-200">
+                        <td class="py-1 px-2 text-center text-[#64748b] print:text-slate-600">{{ $index++ }}</td>
+                        <td class="py-1 px-2 text-[#334155] font-bold print:text-black">İŞÇİLİK</td>
+                        <td class="py-1 px-2 text-center">1</td>
+                        <td class="py-1 px-2 text-right">{{ number_format($maintenance->labor_cost, 2, '.', ',') }} ₺</td>
+                        <td class="py-1 px-2 text-right">{{ number_format($maintenance->labor_cost, 2, '.', ',') }} ₺</td>
                     </tr>
                 @endif
             </tbody>
         </table>
 
         <!-- Calculation Area -->
-        <div class="flex justify-end pt-4 pb-4">
-            <div class="w-64 text-xs font-bold text-[#334155] print:text-black">
+        <div class="flex justify-end pt-2 pb-2">
+            <div class="w-48 text-[10px] font-bold text-[#334155] print:text-black">
                 <div class="flex justify-between py-1">
                     <span>Parça Toplamı:</span>
                     @php
@@ -309,28 +308,26 @@
         </div>
 
         <!-- Thick Blue Divider -->
-        <div class="h-0.5 w-full bg-[#007bff] mb-4 print:bg-slate-800"></div>
+        <div class="h-[1px] w-full bg-[#007bff] mb-2 print:bg-slate-800"></div>
 
         <!-- Grand Total -->
-        <div class="flex justify-end items-center text-[#007bff] mb-8 print:text-black">
-            <span class="text-sm font-bold mr-4 uppercase tracking-wide">TOPLAM TUTAR:</span>
-            <span class="text-xl font-bold">{{ number_format($maintenance->total_cost, 2, '.', ',') }} ₺</span>
+        <div class="flex justify-end items-center text-[#007bff] mb-4 print:text-black">
+            <span class="text-xs font-bold mr-4 uppercase tracking-wide">TOPLAM TUTAR:</span>
+            <span class="text-lg font-bold">{{ number_format($maintenance->total_cost, 2, '.', ',') }} ₺</span>
         </div>
 
-        <!-- Info / Warning Block -->
-        <div
-            class="bg-[#f0f8ff] p-3 rounded-sm text-[#334155] text-[11px] font-medium mb-12 print:bg-transparent print:border print:border-slate-300">
+        <!-- Info / Warning Block (Hidden on print to save space, only screen) -->
+        <div class="print:hidden bg-[#f0f8ff] p-3 rounded-sm text-[#334155] text-[11px] font-medium mb-12">
             <p class="font-bold flex items-center mb-0.5 text-[#334155] text-xs print:text-black">
                 <span class="mr-1 text-sm">⚠</span> ÖDEME BEKLİYOR
             </p>
             <p class="text-[#334155] font-normal leading-tight ml-[18px] print:text-black">Lütfen ödeme yapınız.</p>
         </div>
 
-        <!-- Footer -->
-        <div class="text-center text-[#64748b] text-[10px] leading-tight pt-16 mt-24 print:text-black">
+        <!-- Footer (Hidden on print to save space, or very small) -->
+        <div class="text-center text-[#64748b] text-[8px] leading-tight pt-4 mt-8 print:text-black border-t border-slate-100 print:border-none">
             <p class="font-bold mb-0.5 text-[#334155] print:text-black">Teşekkür ederiz!</p>
             <p>{{ $setting->company_name ?? 'Motojet Servis' }} - Güvenilir Teknik Servis Hizmetleri</p>
-            <p>Bu fatura elektronik ortamda oluşturulmuştur.</p>
         </div>
     </div>
 @endsection

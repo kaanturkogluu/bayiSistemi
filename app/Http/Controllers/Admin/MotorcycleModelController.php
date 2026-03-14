@@ -25,7 +25,7 @@ class MotorcycleModelController extends Controller
     {
         $validated = $request->validate([
             'brand_id' => 'required|exists:brands,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:motorcycle_models,name',
         ]);
 
         MotorcycleModel::create($validated);
@@ -43,7 +43,7 @@ class MotorcycleModelController extends Controller
     {
         $validated = $request->validate([
             'brand_id' => 'required|exists:brands,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:motorcycle_models,name,' . $motorcycleModel->id,
         ]);
 
         $motorcycleModel->update($validated);

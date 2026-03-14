@@ -18,6 +18,11 @@ class MotorcycleModel extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public function motorcycles()
+    {
+        return $this->hasMany(Motorcycle::class);
+    }
+
     protected static function booted(): void
     {
         static::creating(function (MotorcycleModel $model) {

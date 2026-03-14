@@ -22,6 +22,11 @@ class Customer extends Model implements Auditable
         return $this->hasMany(Vehicle::class);
     }
 
+    public function sales()
+    {
+        return $this->hasMany(MotorcycleSale::class);
+    }
+
     public function maintenances()
     {
         return $this->hasMany(Maintenance::class);

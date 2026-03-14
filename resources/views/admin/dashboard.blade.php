@@ -66,6 +66,37 @@
                 </div>
             </a>
 
+            <!-- Card 2.5: Motorcycles (Inventory) -->
+            <a href="{{ route('admin.motorcycles.index') }}"
+                class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="p-6 relative z-10 flex flex-col h-full">
+                    <div
+                        class="w-14 h-14 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-indigo-200 transition-all duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">Motorlar (Stok)</h3>
+                    <div class="mb-4 flex-1">
+                        <p class="text-slate-500 text-sm mb-2">Motosiklet ve envanter stok durumunu yönetin.</p>
+                        <div class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-100 text-indigo-700">
+                            Toplam Stok: {{ $motorcycleCount }} Adet
+                        </div>
+                    </div>
+                    <div class="text-indigo-600 font-medium text-sm flex items-center">
+                        Stokları Gör <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
             <!-- Card 3: Cari & Ödeme (NEW) -->
             <a href="{{ route('admin.cari.index') }}"
                 class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-blue-600 hover:shadow-md transition-all duration-300 overflow-hidden relative">
@@ -96,6 +127,34 @@
                     </div>
                     <div class="text-blue-600 font-medium text-sm flex items-center">
                         Hesapları İncele <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 4: Motor Satışı (NEW) -->
+            <a href="{{ route('admin.motorcycle-sales.index') }}"
+                class="group block h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-emerald-600 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="p-6 relative z-10 flex flex-col h-full">
+                    <div
+                        class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-emerald-200 transition-all duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04M12 2.944a11.955 11.955 0 01-8.618 3.04m16.732 3.04A11.955 11.955 0 0112 11a11.955 11.955 0 01-6.114-1.976M12 11a11.955 11.955 0 01-6.114-1.976m11.228 1.976A11.955 11.955 0 0112 21.056a11.955 11.955 0 01-9.112-4.056M12 21.056a11.955 11.955 0 01-9.112-4.056">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">Motor Satışı</h3>
+                    <div class="mb-4 flex-1">
+                        <p class="text-slate-500 text-sm mb-2">Stoktaki motorları müşterilere satın ve satış kaydı oluşturun.</p>
+                    </div>
+                    <div class="text-emerald-600 font-medium text-sm flex items-center">
+                        Satış Yap / Geçmiş <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>

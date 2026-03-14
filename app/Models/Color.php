@@ -13,6 +13,11 @@ class Color extends Model
         'hex',
     ];
 
+    public function motorcycles()
+    {
+        return $this->hasMany(Motorcycle::class);
+    }
+
     protected static function booted(): void
     {
         static::creating(function (Color $color) {

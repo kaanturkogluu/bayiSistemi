@@ -17,6 +17,11 @@ class Brand extends Model
         return $this->hasMany(MotorcycleModel::class);
     }
 
+    public function motorcycles()
+    {
+        return $this->hasMany(Motorcycle::class);
+    }
+
     /**
      * Auto-generate slug from name before saving.
      */

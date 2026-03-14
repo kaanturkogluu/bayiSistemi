@@ -61,6 +61,7 @@ class MaintenanceController extends Controller
         $request->validate([
             'customer_id' => ['required', 'exists:customers,id'],
             'vehicle_id' => ['required', 'exists:vehicles,id'],
+            'km' => ['nullable', 'numeric', 'min:0'],
             'labor_cost' => ['required', 'numeric', 'min:0'],
             'total_cost' => ['required', 'numeric', 'min:0'],
             'parts' => ['nullable', 'array'],
@@ -76,6 +77,7 @@ class MaintenanceController extends Controller
             $maintenance = Maintenance::create([
                 'customer_id' => $request->customer_id,
                 'vehicle_id' => $request->vehicle_id,
+                'km' => $request->km,
                 'labor_cost' => $request->labor_cost,
                 'total_cost' => $request->total_cost,
             ]);
@@ -143,6 +145,7 @@ class MaintenanceController extends Controller
         $request->validate([
             'customer_id' => ['required', 'exists:customers,id'],
             'vehicle_id' => ['required', 'exists:vehicles,id'],
+            'km' => ['nullable', 'numeric', 'min:0'],
             'labor_cost' => ['required', 'numeric', 'min:0'],
             'total_cost' => ['required', 'numeric', 'min:0'],
             'parts' => ['nullable', 'array'],
@@ -158,6 +161,7 @@ class MaintenanceController extends Controller
             $maintenance->update([
                 'customer_id' => $request->customer_id,
                 'vehicle_id' => $request->vehicle_id,
+                'km' => $request->km,
                 'labor_cost' => $request->labor_cost,
                 'total_cost' => $request->total_cost,
             ]);

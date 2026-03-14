@@ -89,6 +89,13 @@
                             <span
                                 class="font-bold text-slate-800">{{ $maintenance->customer?->name_surname ?? 'Silinmiş Müşteri' }}</span>
                         </div>
+                        @if($maintenance->km)
+                        <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                            <span class="text-slate-500 text-sm">Araç Kilometresi</span>
+                            <span
+                                class="font-bold text-slate-800">{{ number_format($maintenance->km, 0, ',', '.') }} KM</span>
+                        </div>
+                        @endif
                         <div class="flex justify-between items-center py-2 border-b border-slate-100">
                             <span class="text-slate-500 text-sm">Tarih</span>
                             <span

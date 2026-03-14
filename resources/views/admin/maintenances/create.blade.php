@@ -92,20 +92,37 @@
                     Ücret ve Yedek Parça Detayları
                 </h2>
                 
-                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
-                    <label for="labor_cost_display" class="block text-sm font-medium text-slate-700 mb-1">İşçilik Ücreti (TL) <span class="text-red-500">*</span></label>
-                    <div class="relative max-w-sm">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <span class="text-slate-400 font-medium text-lg">₺</span>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6 font-semibold flex flex-col md:flex-row gap-6">
+                    <div class="flex-1">
+                        <label for="km" class="block text-sm font-medium text-slate-700 mb-1">Araç Kilometresi (KM)</label>
+                        <div class="relative w-full">
+                           <input type="hidden" id="hidden_km" name="km" value="{{ old('km') }}">
+                           <input type="text" id="km_display" value="{{ old('km') !== null && old('km') !== '' ? number_format((float)old('km'), 0, '', '.') : '' }}"
+                               class="w-full px-4 py-3 pr-12 rounded-lg border @error('km') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all font-bold text-lg text-slate-800 shadow-sm"
+                               placeholder="Örn: 145.678" oninput="let v = this.value.replace(/[^0-9]/g, ''); document.getElementById('hidden_km').value = v; this.value = v.replace(/\B(?=(\d{3})+(?!\d))/g, '.');">
+                           <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                               <span class="text-slate-400 font-medium text-sm">KM</span>
+                           </div>
                         </div>
-                        <input type="text" id="labor_cost_display" x-mask:dynamic="$money($input, ',', '.', 2)" x-model="displayLaborCost" @input="updateLaborCost($event.target.value)" required
-                            class="pl-10 w-full px-4 py-3 rounded-lg border @error('labor_cost') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all text-right font-bold text-lg text-slate-800 shadow-sm"
-                            placeholder="0,00">
-                        <!-- Hidden input to send actual numeric value to backend -->
-                        <input type="hidden" name="labor_cost" :value="laborCost">
+                        <p class="mt-1 text-sm text-slate-500">Aracın bakıma girdiği anki güncel kilometresi.</p>
+                        @error('km') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
-                    <p class="mt-1 text-sm text-slate-500">Uygulanan işlem için sabit işçilik ücreti.</p>
-                    @error('labor_cost') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+
+                    <div class="flex-1">
+                        <label for="labor_cost_display" class="block text-sm font-medium text-slate-700 mb-1">İşçilik Ücreti (TL) <span class="text-red-500">*</span></label>
+                        <div class="relative w-full">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span class="text-slate-400 font-medium text-lg">₺</span>
+                            </div>
+                            <input type="text" id="labor_cost_display" x-mask:dynamic="$money($input, ',', '.', 2)" x-model="displayLaborCost" @input="updateLaborCost($event.target.value)" required
+                                class="pl-10 w-full px-4 py-3 rounded-lg border @error('labor_cost') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-300 focus:ring-blue-500 focus:border-blue-500 @enderror outline-none transition-all text-right font-bold text-lg text-slate-800 shadow-sm"
+                                placeholder="0,00">
+                            <!-- Hidden input to send actual numeric value to backend -->
+                            <input type="hidden" name="labor_cost" :value="laborCost">
+                        </div>
+                        <p class="mt-1 text-sm text-slate-500">Uygulanan işlem için sabit işçilik ücreti.</p>
+                        @error('labor_cost') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
                 </div>
 
                 <!-- Parts Section -->

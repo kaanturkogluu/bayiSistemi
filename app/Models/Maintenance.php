@@ -15,6 +15,7 @@ class Maintenance extends Model implements Auditable
     protected $fillable = [
         'customer_id',
         'vehicle_id',
+        'km',
         'labor_cost',
         'total_cost',
         'status',

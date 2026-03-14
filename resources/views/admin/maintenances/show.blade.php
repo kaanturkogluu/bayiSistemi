@@ -89,6 +89,12 @@
             <div class="md:text-right">
                 <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Bakım Detayları</h3>
                 <div class="text-slate-600 text-sm grid grid-cols-2 md:grid-cols-none gap-2 md:gap-0 justify-end">
+                    @if($maintenance->km)
+                    <div class="flex md:justify-end py-1">
+                        <span class="font-medium mr-2">Araç Kilometresi:</span>
+                        {{ number_format($maintenance->km, 0, ',', '.') }} KM
+                    </div>
+                    @endif
                     <div class="flex md:justify-end py-1">
                         <span class="font-medium mr-2">Oluşturulma:</span>
                         {{ $maintenance->created_at->format('d.m.Y H:i') }}

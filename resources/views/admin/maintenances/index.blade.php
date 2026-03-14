@@ -113,7 +113,15 @@
                                 {{ number_format($maintenance->total_cost, 2, ',', '.') }} ₺
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                                {{ $maintenance->created_at->format('d.m.Y H:i') }}
+                                <div class="font-medium text-slate-700">{{ $maintenance->created_at->format('d.m.Y H:i') }}</div>
+                                @if($maintenance->km)
+                                    <div class="text-xs text-slate-500 mt-1 flex items-center">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        {{ number_format($maintenance->km, 0, ',', '.') }} KM
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.maintenances.show', $maintenance) }}"

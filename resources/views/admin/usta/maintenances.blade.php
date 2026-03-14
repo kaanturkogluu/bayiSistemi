@@ -70,11 +70,21 @@
                         </div>
                     </div>
 
-                    <div class="text-sm text-slate-500 mb-3 flex items-center justify-center gap-1.5 font-medium" title="Kayıt Tarihi">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        <span>{{ $maintenance->created_at ? $maintenance->created_at->format('d.m.Y H:i') : '-' }}</span>
+                    <div class="text-sm text-slate-500 mb-3 flex flex-col items-center justify-center gap-1.5 font-medium" title="Kayıt Tarihi ve KM">
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>{{ $maintenance->created_at ? $maintenance->created_at->format('d.m.Y H:i') : '-' }}</span>
+                        </div>
+                        @if($maintenance->km)
+                        <div class="flex items-center gap-1.5 text-xs bg-slate-100 px-2 py-0.5 rounded-full mt-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>{{ number_format($maintenance->km, 0, ',', '.') }} KM</span>
+                        </div>
+                        @endif
                     </div>
 
                     <h3 class="font-bold text-slate-700 text-lg mb-1 truncate w-full"

@@ -273,42 +273,35 @@
                     'is_labor' => true
                 ];
             }
-            // Chunk exactly at 13 to gracefully show 26 total items side by side
-            $chunks = array_chunk($displayItems, 13);
         @endphp
-
-        <div style="display:flex; flex-wrap:wrap; gap:4px 8px;">
-            @php $globalIndex = 1; @endphp
-            @foreach($chunks as $chunk)
-                <div style="width:{{ count($chunks) === 1 ? '100%' : 'calc(50% - 4px)' }}; box-sizing:border-box; border:1px solid #cbd5e1;">
-                    <table style="width:100%; border-collapse:collapse; font-size:9.5px;">
-                        <thead>
-                            <tr style="border-bottom:2px solid #1e293b; background:#f1f5f9;">
-                                <th style="padding:2px 3px; text-align:center; width:18px; border-right:1px solid #cbd5e1;">#</th>
-                                <th style="padding:2px 3px; text-align:left; border-right:1px solid #cbd5e1;">Parça Adı</th>
-                                <th style="padding:2px 3px; text-align:center; width:28px; border-right:1px solid #cbd5e1;">Adet</th>
-                                <th style="padding:2px 3px; text-align:right; width:54px; border-right:1px solid #cbd5e1;">B.Fiyat</th>
-                                <th style="padding:2px 3px; text-align:right; width:60px;">Toplam</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($chunk as $item)
-                                <tr style="border-bottom:1px solid #e2e8f0;">
-                                    <td style="padding:3px 4px; text-align:center; color:#64748b; border-right:1px solid #e2e8f0;">{{ $globalIndex++ }}</td>
-                                    <td style="padding:3px 4px; {{ $item['is_labor'] ? 'font-weight:700;' : '' }} border-right:1px solid #e2e8f0;">{{ $item['name'] }}</td>
-                                    <td style="padding:3px 4px; text-align:center; border-right:1px solid #e2e8f0;">{{ $item['qty'] }}</td>
-                                    <td style="padding:3px 4px; text-align:right; border-right:1px solid #e2e8f0;">{{ number_format($item['price'], 2, '.', ',') }} ₺</td>
-                                    <td style="padding:3px 4px; text-align:right;">{{ number_format($item['total'], 2, '.', ',') }} ₺</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endforeach
+        <div style="width:100%; box-sizing:border-box; border:1px solid #cbd5e1;">
+            <table style="width:100%; border-collapse:collapse; font-size:10px;">
+                <thead>
+                    <tr style="border-bottom:2px solid #1e293b; background:#f1f5f9;">
+                        <th style="padding:4px 6px; text-align:center; width:25px; border-right:1px solid #cbd5e1;">#</th>
+                        <th style="padding:4px 6px; text-align:left; border-right:1px solid #cbd5e1;">Parça Adı</th>
+                        <th style="padding:4px 6px; text-align:center; width:40px; border-right:1px solid #cbd5e1;">Adet</th>
+                        <th style="padding:4px 6px; text-align:right; width:80px; border-right:1px solid #cbd5e1;">B.Fiyat</th>
+                        <th style="padding:4px 6px; text-align:right; width:100px;">Toplam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $globalIndex = 1; @endphp
+                    @foreach($displayItems as $item)
+                        <tr style="border-bottom:1px solid #e2e8f0;">
+                            <td style="padding:5px 6px; text-align:center; color:#64748b; border-right:1px solid #e2e8f0;">{{ $globalIndex++ }}</td>
+                            <td style="padding:5px 6px; {{ $item['is_labor'] ? 'font-weight:700;' : '' }} border-right:1px solid #e2e8f0;">{{ $item['name'] }}</td>
+                            <td style="padding:5px 6px; text-align:center; border-right:1px solid #e2e8f0;">{{ $item['qty'] }}</td>
+                            <td style="padding:5px 6px; text-align:right; border-right:1px solid #e2e8f0;">{{ number_format($item['price'], 2, '.', ',') }} ₺</td>
+                            <td style="padding:5px 6px; text-align:right;">{{ number_format($item['total'], 2, '.', ',') }} ₺</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
         <!-- Calculation Area -->
-        <div style="padding-top:8px;">
+        <div style="padding-top:8px; display:flex; justify-content:flex-end;">
             @php
                 $partsTotal = $maintenance->parts->sum(function ($p) { return $p->quantity * $p->unit_price; });
             @endphp

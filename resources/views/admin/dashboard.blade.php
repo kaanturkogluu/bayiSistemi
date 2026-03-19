@@ -622,6 +622,3 @@ function errorReportComponent() {
     </div>
 </div>
 @endsection
-
-
-```

@@ -3,6 +3,53 @@
 @section('header', 'Hızlı Erişim')
 
 @section('content')
+<script>
+function errorReportComponent() {
+    return {
+        reportModalOpen: false,
+        reportDescription: '',
+        isSubmitting: false,
+        async submitErrorReport() {
+            if (this.reportDescription.length < 10) {
+                alert('Lütfen en az 10 karakterlik bir açıklama yazın.');
+                return;
+            }
+            
+            this.isSubmitting = true;
+            const formData = new FormData();
+            formData.append('description', this.reportDescription);
+            const screenshotInput = document.getElementById('reportScreenshot');
+            if (screenshotInput && screenshotInput.files.length > 0) {
+                formData.append('screenshot', screenshotInput.files[0]);
+            }
+            formData.append('_token', '{{ csrf_token() }}');
+
+            try {
+                const response = await fetch('{{ route('admin.error_report.store') }}', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    this.reportModalOpen = false;
+                    this.reportDescription = '';
+                    if (screenshotInput) screenshotInput.value = '';
+                } else {
+                    alert(data.message || 'Bir hata oluştu.');
+                }
+            } catch (error) {
+                alert('Bir iletişim hatası oluştu. Lütfen bağlantınızı kontrol edin.');
+            } finally {
+                this.isSubmitting = false;
+            }
+        }
+    }
+}
+</script>
+<div x-data="errorReportComponent()">
+
 
     {{-- ── Bilgilendirme Bildirimi ─────────────────────────── --}}
     <div
@@ -358,10 +405,8 @@
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-gray-600 transition-colors">Sistem
-                        Kayıtları</h3>
-                    <p class="text-slate-500 text-sm mb-4 flex-1">Ekleme, silme ve düzenleme işlemlerinin detaylı denetim
-                        kayıtları.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-gray-600 transition-colors">Sistem Kayıtları</h3>
+                    <p class="text-slate-500 text-sm mb-4 flex-1">Ekleme, silme ve düzenleme işlemlerinin detaylı denetim kayıtları.</p>
                     <div class="text-gray-600 font-medium text-sm flex items-center">
                         Kayıtları Gör <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -370,12 +415,40 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Card 8: Report Error / Hata Bildir -->
+            <button @click="reportModalOpen = true"
+                class="group block w-full text-left h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-red-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="p-6 relative z-10 flex flex-col h-full">
+                    <div
+                        class="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-red-200 transition-all duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-red-600 transition-colors">Hata Bildir</h3>
+                    <p class="text-slate-500 text-sm mb-4 flex-1">Sistemde karşılaştığınız hataları ekran görüntüsü ile bildirin.</p>
+                    <div class="text-red-600 font-medium text-sm flex items-center">
+                        Bildirim Yap <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </button>
+
         </div>
     @endif
 
     @if(Auth::user()->role === 'usta')
         <!-- Usta (Technician) Dashboard -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
 
             <!-- Pending Maintenances -->
             <a href="{{ route('admin.usta.maintenances', ['status' => 'bekliyor']) }}"
@@ -433,7 +506,122 @@
                 </div>
             </a>
 
+            <!-- Card 3: Report Error / Hata Bildir (Usta) -->
+            <button @click="reportModalOpen = true"
+                class="group block w-full text-left h-full bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-red-500 hover:shadow-md transition-all duration-300 overflow-hidden relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="p-8 relative z-10 flex flex-col items-center text-center h-full">
+                    <div
+                        class="w-20 h-20 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-red-200 transition-all duration-300 shadow-sm">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-red-600 transition-colors">Hata Bildir</h3>
+                    <p class="text-slate-500 text-base mb-6 flex-1">Sistem hatalarını ekran görüntüsü ile bildirin.
+                    </p>
+                    <div class="text-red-600 font-bold text-base flex items-center bg-red-50 px-4 py-2 rounded-lg">
+                        Bildirim Yap
+                        <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </button>
+
+
         </div>
     @endif
 
+    <!-- Error Report Modal -->
+    <div x-show="reportModalOpen" 
+         class="fixed inset-0 z-50 overflow-y-auto" 
+         style="display: none;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="absolute inset-0 transition-opacity" aria-hidden="true" @click="reportModalOpen = false">
+                <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"></div>
+            </div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-slate-200 relative z-10"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                
+                <div class="bg-white px-6 py-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </div>
+                            Hata Bildir
+                        </h3>
+                        <button @click="reportModalOpen = false" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form @submit.prevent="submitErrorReport">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">Hata Açıklaması</label>
+                                <textarea x-model="reportDescription" required minlength="10" rows="4" 
+                                          class="w-full rounded-xl border-slate-200 border bg-slate-50 focus:border-red-500 focus:ring-red-500 text-sm p-3 transition-all"
+                                          placeholder="Karşılaştığınız sorunu lütfen detaylıca açıklayın..."></textarea>
+                                <p class="text-[10px] text-slate-400 mt-1">Lütfen en az 10 karakter yazın.</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">Ekran Görüntüsü (Opsiyonel)</label>
+                                <div class="relative">
+                                    <input type="file" id="reportScreenshot" accept="image/*"
+                                           class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 cursor-pointer border border-dashed border-slate-300 rounded-xl p-1">
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-1">Resim formatında (jpg, png) ve maks 5MB olmalıdır.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex gap-3">
+                            <button type="button" @click="reportModalOpen = false"
+                                    class="flex-1 px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all">
+                                Vazgeç
+                            </button>
+                            <button type="submit" :disabled="isSubmitting"
+                                    class="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-red-200">
+                                <template x-if="isSubmitting">
+                                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                </template>
+                                <span x-text="isSubmitting ? 'Gönderiliyor...' : 'Bildirimi Gönder'"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+
+
+```

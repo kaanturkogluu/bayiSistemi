@@ -18,8 +18,11 @@ use App\Http\Controllers\Admin\CustomerTransactionController;
 use App\Http\Controllers\Admin\CariController;
 use App\Http\Controllers\Admin\AuditController;
 use App\Http\Controllers\Admin\MotorcycleSaleController;
+use App\Http\Controllers\Admin\ErrorReportController;
 
 Route::middleware('auth')->group(function () {
+    Route::post('admin/error-report', [ErrorReportController::class, 'store'])->name('admin.error_report.store');
+
     Route::get('/admin', function () {
         $totalBalance = \App\Models\Customer::sum('balance');
         $motorcycleCount = \App\Models\Motorcycle::count();
